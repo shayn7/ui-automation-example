@@ -3,7 +3,7 @@ This project is a sample UI automation project for google translate site
 
 
 Requirements
-Make sure you have java, maven, and allure installed in your system
+Make sure you have JDK17, maven, and allure installed in your system
 
 Running the project
 1. clone the project
@@ -13,15 +13,22 @@ Running the project
 You can also run the project with specific parameters if you wish to use different browsers, URLs, etc.
 The parameters supported are: 
 baseUrl - the base url to use
-suiteXmlFile - the xml file of the desired tests (url_entries.xml, etc.)
+suiteXmlFile - the xml file of the desired tests (translation_tests.xml, etc.)
 browser - local_chrome, local_firefox, remote
 hub - the remote URL (for example jenkins machine)
 
 The command to use with any of the parameters above for example is:
-mvn clean test -DbaseUrl=www.google.com -DsuiteXmlFile=url_entries.xml -Dbrowser=local_firefox -Dhub=192.0.0.5
+mvn clean test -DbaseUrl=https://www.google.com -DsuiteXmlFile=suite_files/translation_tests.xml -Dbrowser=local_firefox -Dhub=192.0.0.5
 
 In order to generate the report:
 1. enter the terminal
 2. navigate to the project location
-3. enter the command: serve allure-results
+3. enter the command: allure serve allure-results (allure path must be added to the global variables or else run this command by entering the path of allure in your system )
+
+Creating a test
+1. create a method annotated with @Test
+2. start the session by using browser.startSession()
+3. create the test scenario 
+
+
 

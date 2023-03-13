@@ -2,6 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="main suite">
     <suite-files>
-        <suite-file path="src/test/java/suite_files/url_entries.xml"/>
+        <suite-file path="suite_files/translation_tests.xml"/>
     </suite-files>
 </suite>

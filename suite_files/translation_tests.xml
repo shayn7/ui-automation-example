@@ -3,7 +3,7 @@
 <suite name="main flow" parallel="methods" thread-count="1">
     <test name="url entries tests">
         <classes>
-            <class name="tests.UrlEntriesTests"/>
+            <class name="tests.TranslationTests"/>
         </classes>
     </test>
 </suite>

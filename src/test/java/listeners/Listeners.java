@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import tests.TestSetup;
+import java.util.Optional;
 
 public class Listeners implements ITestListener {
 
@@ -18,10 +19,10 @@ public class Listeners implements ITestListener {
     public void onTestFailure(ITestResult result){
         log.info(String.format("test %s was failed", result.getName()));
         TestSetup testSetup = (TestSetup) result.getInstance();
-        WebDriver driver = testSetup.getBrowser().getDriver();
-        if(driver != null){
-            takeScreenshot(driver);
-            saveTextLog(String.format("current URL is: %s", driver.getCurrentUrl()));
+        Optional<WebDriver> driver = Optional.ofNullable(testSetup.getBrowser().getDriver());
+        if(driver.isPresent()){
+            takeScreenshot(driver.get());
+            saveTextLog(String.format("current URL is: %s", driver.get().getCurrentUrl()));
         }
     }
 

@@ -10,13 +10,13 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
@@ -65,9 +65,14 @@ public abstract class BrowserSteps {
         logToConsoleAndReporter(String.format("after getting the URL the page title is %s", getPageTitle()));
     }
 
+    public void pressOnKeyboardKey(Keys key){
+        sleep(3);
+        Actions action = new Actions(driver);
+        action.sendKeys(key).build().perform();
+    }
+
     public void setText(WebElement element, String text){
-        boolean isDisplayed = isElementDisplayed(element);
-        if(isDisplayed){
+        if(isElementDisplayed(element)){
             element.clear();
             element.sendKeys(text);
             logToConsoleAndReporter(String.format("entered the text: %s in the text box", text));
@@ -75,8 +80,7 @@ public abstract class BrowserSteps {
     }
 
     public String getText(WebElement element){
-        boolean isDisplayed = isElementDisplayed(element);
-        return isDisplayed ? element.getText() : " ";
+        return isElementDisplayed(element) ? element.getText() : " ";
     }
 
     @Step("checking if element is displayed. element is: {0}")
@@ -91,8 +95,7 @@ public abstract class BrowserSteps {
 
     @Step("clicked on element: {0}")
     public void clickOnElement(WebElement element){
-        boolean isClickable = isElementDisplayed(element);
-        if(isClickable){
+        if(isElementDisplayed(element)){
             element.click();
             logToConsoleAndReporter("clicked on element " + element);
         } else {
@@ -109,6 +112,10 @@ public abstract class BrowserSteps {
         ((JavascriptExecutor) driver).executeScript("window.open('about:blank','_blank');");
     }
 
+    public void clickOnElementUsingJs(String locator) {
+        ((JavascriptExecutor) driver).executeScript("document.querySelector(\"XX\").click()".replace("XX", locator));
+    }
+
     public void switchWindow(){
         parentWindow = setParentWindow();
         Set<String> windows = getAllWindows();
@@ -123,15 +130,8 @@ public abstract class BrowserSteps {
     }
 
     public void closeWindow(){
-        sleep(3);
         driver.close();
-        sleep(3);
     }
-
-    public String getParentWindow(){
-        return parentWindow;
-    }
-
     public void switchToParentWindow(String parentWindow){
         driver.switchTo().window(parentWindow);
     }

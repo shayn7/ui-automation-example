@@ -2,6 +2,7 @@ package tests;
 
 import com.naamad.factories.BrowserFactory;
 import com.naamad.steps.BrowserSteps;
+import com.naamad.utils.ApplicationProperties;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -17,8 +18,9 @@ public class TestSetup {
 
     @BeforeMethod
     public void setup(){
-        baseUrl = System.getProperty("baseUrl", "https://translate.google.com/");
-        browser = BrowserFactory.getBrowser(System.getProperty("browser", "local_chrome"));
+        ApplicationProperties applicationProperties = new ApplicationProperties();
+        baseUrl = System.getProperty("baseUrl", applicationProperties.readProperty("baseUrl"));
+        browser = BrowserFactory.getBrowser(System.getProperty("browser", applicationProperties.readProperty("browser")));
     }
 
     @AfterMethod(alwaysRun = true)
@@ -27,8 +29,4 @@ public class TestSetup {
     }
 
 
-        /*
-    maven command: mvn clean test -DbaseUrl=${endpoint} -DsuiteXmlFile=${suiteXmlFile} -Dbrowser=${environment} -Dhub=${hub}
-    allure report command: allure serve allure-results
-     */
 }
